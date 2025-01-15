@@ -1,26 +1,22 @@
+import type { ProjectIcon, ProjectRole, ProjectType } from '@n8n/api-types';
 import type { Scope } from '@n8n/permissions';
 import type express from 'express';
 import type {
 	ICredentialDataDecryptedObject,
 	IDataObject,
-	ILoadOptions,
 	INodeCredentialTestRequest,
-	INodeCredentials,
-	INodeParameters,
-	INodeTypeNameVersion,
 	IPersonalizationSurveyAnswersV4,
 	IUser,
 } from 'n8n-workflow';
 
 import type { CredentialsEntity } from '@/databases/entities/credentials-entity';
-import type { Project, ProjectIcon, ProjectType } from '@/databases/entities/project';
+import type { Project } from '@/databases/entities/project';
 import type { AssignableRole, GlobalRole, User } from '@/databases/entities/user';
 import type { Variables } from '@/databases/entities/variables';
 import type { WorkflowEntity } from '@/databases/entities/workflow-entity';
 import type { WorkflowHistory } from '@/databases/entities/workflow-history';
 import type { SecretsProvider, SecretsProviderState } from '@/interfaces';
 
-import type { ProjectRole } from './databases/entities/project-relation';
 import type { ScopesField } from './services/role.service';
 
 export type APIRequest<
@@ -269,58 +265,6 @@ export declare namespace OAuthRequest {
 }
 
 // ----------------------------------
-//      /dynamic-node-parameters
-// ----------------------------------
-export declare namespace DynamicNodeParametersRequest {
-	type BaseRequest<RequestBody = {}> = AuthenticatedRequest<
-		{},
-		{},
-		{
-			path: string;
-			nodeTypeAndVersion: INodeTypeNameVersion;
-			currentNodeParameters: INodeParameters;
-			methodName?: string;
-			credentials?: INodeCredentials;
-		} & RequestBody,
-		{}
-	>;
-
-	/** POST /dynamic-node-parameters/options */
-	type Options = BaseRequest<{
-		loadOptions?: ILoadOptions;
-	}>;
-
-	/** POST /dynamic-node-parameters/resource-locator-results */
-	type ResourceLocatorResults = BaseRequest<{
-		methodName: string;
-		filter?: string;
-		paginationToken?: string;
-	}>;
-
-	/** POST dynamic-node-parameters/resource-mapper-fields */
-	type ResourceMapperFields = BaseRequest<{
-		methodName: string;
-	}>;
-
-	/** POST /dynamic-node-parameters/action-result */
-	type ActionResult = BaseRequest<{
-		handler: string;
-		payload: IDataObject | string | undefined;
-	}>;
-}
-
-// ----------------------------------
-//             /tags
-// ----------------------------------
-
-export declare namespace TagsRequest {
-	type GetAll = AuthenticatedRequest<{}, {}, {}, { withUsageCount: string }>;
-	type Create = AuthenticatedRequest<{}, {}, { name: string }>;
-	type Update = AuthenticatedRequest<{ id: string }, {}, { name: string }>;
-	type Delete = AuthenticatedRequest<{ id: string }>;
-}
-
-// ----------------------------------
 //             /annotation-tags
 // ----------------------------------
 
@@ -433,32 +377,10 @@ export declare namespace ActiveWorkflowRequest {
 // ----------------------------------
 
 export declare namespace ProjectRequest {
-	type GetAll = AuthenticatedRequest<{}, Project[]>;
-
-	type Create = AuthenticatedRequest<
-		{},
-		Project,
-		{
-			name: string;
-			icon?: ProjectIcon;
-		}
-	>;
-
-	type GetMyProjects = AuthenticatedRequest<
-		{},
-		Array<Project & { role: ProjectRole }>,
-		{},
-		{
-			includeScopes?: boolean;
-		}
-	>;
 	type GetMyProjectsResponse = Array<
 		Project & { role: ProjectRole | GlobalRole; scopes?: Scope[] }
 	>;
 
-	type GetPersonalProject = AuthenticatedRequest<{}, Project>;
-
-	type ProjectRelationPayload = { userId: string; role: ProjectRole };
 	type ProjectRelationResponse = {
 		id: string;
 		email: string;
@@ -474,18 +396,6 @@ export declare namespace ProjectRequest {
 		relations: ProjectRelationResponse[];
 		scopes: Scope[];
 	};
-
-	type Get = AuthenticatedRequest<{ projectId: string }, {}>;
-	type Update = AuthenticatedRequest<
-		{ projectId: string },
-		{},
-		{
-			name?: string;
-			relations?: ProjectRelationPayload[];
-			icon?: { type: 'icon' | 'emoji'; value: string };
-		}
-	>;
-	type Delete = AuthenticatedRequest<{ projectId: string }, {}, {}, { transferId?: string }>;
 }
 
 // ----------------------------------

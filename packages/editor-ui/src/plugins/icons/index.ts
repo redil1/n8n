@@ -53,6 +53,7 @@ import {
 	faEnvelope,
 	faEquals,
 	faEye,
+	faEyeSlash,
 	faExclamationTriangle,
 	faExpand,
 	faExpandAlt,
@@ -163,6 +164,7 @@ import {
 	faStream,
 	faPowerOff,
 	faPaperPlane,
+	faExclamationCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { faVariable, faXmark, faVault, faRefresh } from './custom';
 import { faStickyNote } from '@fortawesome/free-regular-svg-icons';
@@ -227,7 +229,9 @@ export const FontAwesomePlugin: Plugin = {
 		addIcon(faEnvelope);
 		addIcon(faEquals);
 		addIcon(faEye);
+		addIcon(faEyeSlash);
 		addIcon(faExclamationTriangle);
+		addIcon(faExclamationCircle);
 		addIcon(faExpand);
 		addIcon(faExpandAlt);
 		addIcon(faExternalLinkAlt);
